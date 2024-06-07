@@ -1,0 +1,8 @@
+flask
+flask_login
+Werkzeug
+Flask-PyMongo
+Flask-WTF
+Flask-Bcrypt
+Flask-Mail
+python-dotenv
