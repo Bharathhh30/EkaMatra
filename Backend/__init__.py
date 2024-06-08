@@ -28,6 +28,11 @@ def create_app():
             return get_user_by_id(user_id)
         except:
             return None
+        
+    @app.template_filter('next')
+    def next_filter(iterable):
+        return next(iterable, None)
+
 
 
     return app

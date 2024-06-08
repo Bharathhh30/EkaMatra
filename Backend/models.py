@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from bson.objectid import ObjectId
 from flask_login import UserMixin
+from datetime import datetime
 import os
 
 bcrypt = Bcrypt()
@@ -37,6 +38,9 @@ class User(UserMixin):
 
 db = client.Ekamatra
 ekamatra_collections = db['Ekamatra-c']
+blog_collections = db['Blog-c']
+
+# print(db.list_collection_names())
 
 def add_user(username,email,password):
     user_data = {
@@ -68,3 +72,32 @@ def get_user_by_id(user_id):
         return User(user_data['_id'], user_data['username'], user_data['email'], user_data['password'])
     else:
         return None
+    
+
+# user post insertion in blog collection
+def insert_blog_post(title,content,author_id):
+     # Retrieve the user object based on the author_id
+    user = ekamatra_collections.find_one({'_id': ObjectId(author_id)})
+    if user:
+        username = user['username']
+
+    else:
+        username = "EkaMatra"
+
+    post = {
+        "title" : title,
+        "content" : content,
+        "authorId" : author_id,
+        "authorUsername" : username,
+        "timestamp" : datetime.now()
+    }
+
+    blog_collections.insert_one(post)
+
+# get all blog posts in descending order (latest first)
+def get_blog_posts():
+    return blog_collections.find().sort('timestamp', -1)
+
+def delete_post_in_collections(post_id):
+    # Delete the post
+    blog_collections.delete_one({'_id': ObjectId(post_id)})
