@@ -10,19 +10,7 @@ To install EkaMatra, follow these steps:
 2. Navigate to the project directory: `cd ekamatra`
 3. Install the required dependencies: `pip install -r requirements.txt`
 
-## Usage
 
-EkaMatra provides a user-friendly interface for performing various text analysis tasks. Here's an example of how to use it:
-
-```python
-from ekamatra import SentimentAnalyzer
-
-text = "I love using EkaMatra for my text analysis tasks!"
-analyzer = SentimentAnalyzer()
-sentiment = analyzer.analyze(text)
-
-print(sentiment)  # Output: Positive
-```
 
 ## Documentation
 

@@ -6,3 +6,4 @@ Flask-WTF
 Flask-Bcrypt
 Flask-Mail
 python-dotenv
+requests

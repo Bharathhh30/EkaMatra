@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, Blueprint,
 from flask_login import current_user, login_required
 from .models import *
 from datetime import datetime
+import requests
+
+# API for news
+NEWS_API_KEY=os.environ.get('NEWS_API_KEY')
+NEWS_API_URL='https://newsapi.org/v2/top-headlines`'
 
 
 # Creating a blueprint
