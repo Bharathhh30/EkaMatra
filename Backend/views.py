@@ -3,10 +3,11 @@ from flask_login import current_user, login_required
 from .models import *
 from datetime import datetime
 import requests
+import os
 
 # API for news
 NEWS_API_KEY=os.environ.get('NEWS_API_KEY')
-NEWS_API_URL='https://newsapi.org/v2/top-headlines`'
+NEWS_API_URL = 'https://newsapi.org/v2/everything'
 
 
 # Creating a blueprint
@@ -66,10 +67,34 @@ def therapist():
 def ngoservices():
     return render_template('ngoservices.html')
 
-@views.route('/news')
-@login_required
+# @views.route('/news')
+# @login_required
+# def news():
+#     return render_template('news.html')
+
+@views.route('/news', methods=['GET', 'POST'])
 def news():
-    return render_template('news.html')
+    topic = request.args.get('topic')
+    if request.method == 'POST':
+        topic = request.form.get('topic')
+    
+    news_data = []
+    if topic:
+        params = {
+            'apiKey': NEWS_API_KEY,
+            'q': topic,
+            'sortBy': 'publishedAt',
+            'language': 'en'
+        }
+        try:
+            response = requests.get(NEWS_API_URL, params=params)
+            response.raise_for_status()  # Raise an exception for HTTP errors
+            news_data = response.json().get('articles', [])
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching news: {e}")
+
+    return render_template('news.html', news=news_data, topic=topic)
+
 
 @views.route('/profile')
 @login_required

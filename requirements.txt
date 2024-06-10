@@ -7,3 +7,5 @@ Flask-Bcrypt
 Flask-Mail
 python-dotenv
 requests
+newsapi-python
+flask-socketio

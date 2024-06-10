@@ -7,8 +7,42 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>News</h1>
-                <p>This is the news page of EkaMatra</p>
+                <p>This is the news page of EkaMatra for Single Parents</p>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <h1>Latest News</h1>
+        
+        <form method="get" action="/news">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="topic" placeholder="Enter topic" aria-label="Enter topic" aria-describedby="button-search">
+                <button class="btn btn-outline-secondary" type="submit" id="button-search">Search</button>
+            </div>
+        </form>
+
+        {% if topic %}
+        <h2>News on {{ topic }}</h2>
+        {% if news %}
+            <div class="row">
+                {% for article in news %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            {% if article.urlToImage %}
+                                <img src="{{ article.urlToImage }}" class="card-img-top" alt="{{ article.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text">{{ article.description }}</p>
+                                <a href="{{ article.url }}" class="btn btn-primary" target="_blank">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No news articles found for this topic.</p>
+        {% endif %}
+        {% endif %}
     </div>
 {% endblock %}
